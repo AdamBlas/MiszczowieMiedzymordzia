@@ -5,6 +5,16 @@ using UnityEngine.UI;
 
 public class ChampSelect : MonoBehaviour
 {
+    [Header("GUI")]
+    [SerializeField] Transform portraitOutline;
+    [SerializeField] [Range(0f, 1f)] float portraitOutlineRotationSpeed;
+
+    [Space]
+    [SerializeField] Transform bigCircle;
+    [SerializeField] [Range(0f, 1f)] float bigCircleRotationSpeed;
+
+    [Space]
+    [Header("Audio")]
     [SerializeField] AudioClip bgMusic;
     [SerializeField] AudioClip apheliosPick;
     [SerializeField] AudioClip elisePick;
@@ -25,6 +35,31 @@ public class ChampSelect : MonoBehaviour
         audioSourceBg.Play();
 
         audioSourcePick.loop = false;
+
+        StartCoroutine(RotatePortraitOutline());
+        StartCoroutine(RotateBigCircle());
+    }
+
+    IEnumerator RotatePortraitOutline()
+    {
+        Vector3 rotOffset = new Vector3(0, 0, Time.deltaTime * -5 * portraitOutlineRotationSpeed);
+
+        while (true)
+        {
+            portraitOutline.Rotate(rotOffset, Space.Self);
+            yield return null;
+        }
+    }
+
+    IEnumerator RotateBigCircle()
+    {
+        Vector3 rotOffset = new Vector3(0, 0, Time.deltaTime * -1 * bigCircleRotationSpeed);
+
+        while (true)
+        {
+            bigCircle.Rotate(rotOffset, Space.Self);
+            yield return null;
+        }
     }
 
     public void OnApheliosPick()
