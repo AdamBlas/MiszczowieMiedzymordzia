@@ -2,11 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ChampSelect : MonoBehaviour
 {
+    [Header("Icons")]
+    [SerializeField] Sprite ahriIcon;
+    [SerializeField] Sprite apheliosIcon;
+    [SerializeField] Sprite eliseIcon;
+    [SerializeField] Sprite tryndamereIcon;
+    [SerializeField] Sprite zileanIcon;
+
+    [Space]
+    [Header("Backgrounds")]
+    [SerializeField] Image championBackground;
+    [SerializeField] Sprite ahriBackground;
+    [SerializeField] Sprite apheliosBackground;
+    [SerializeField] Sprite eliseBackground;
+    [SerializeField] Sprite tryndamereBackground;
+    [SerializeField] Sprite zileanBackground;
+
+    [Space]
     [Header("GUI")]
     [SerializeField] Transform portraitOutline;
+    [SerializeField] Image selectedChampIcon;
     [SerializeField] [Range(0f, 1f)] float portraitOutlineRotationSpeed;
 
     [Space]
@@ -16,12 +35,21 @@ public class ChampSelect : MonoBehaviour
     [Space]
     [Header("Audio")]
     [SerializeField] AudioClip bgMusic;
+    [SerializeField] AudioClip ahriPick;
     [SerializeField] AudioClip apheliosPick;
     [SerializeField] AudioClip elisePick;
     [SerializeField] AudioClip tryndamerePick;
+    [SerializeField] AudioClip zileanPick;
+
+    [Space]
+    [Header("Lock Button")]
+    [SerializeField] Image lockButton;
 
     AudioSource audioSourceBg;
     AudioSource audioSourcePick;
+    string selectedChamp;
+    bool champSelected = false;
+    bool champLocked = false;
 
 
     public void Start()
@@ -62,22 +90,124 @@ public class ChampSelect : MonoBehaviour
         }
     }
 
+    public void OnChampPick()
+    {
+        if (champLocked)
+            return;
+
+        champSelected = true;
+        selectedChampIcon.enabled = true;
+        championBackground.enabled = true;
+        lockButton.enabled = true;
+    }
+    public void OnAhriPick()
+    {
+        if (champLocked)
+            return;
+
+        selectedChampIcon.sprite = ahriIcon;
+        championBackground.sprite = ahriBackground;
+        selectedChamp = "Ahri";
+        OnChampPick();
+    }
     public void OnApheliosPick()
     {
-        Play(apheliosPick);
+        if (champLocked)
+            return;
+
+        selectedChampIcon.sprite = apheliosIcon;
+        championBackground.sprite = apheliosBackground;
+        selectedChamp = "Aphelios";
+        OnChampPick();
     }
     public void OnElisePick()
     {
-        Play(elisePick);
+        if (champLocked)
+            return;
+
+        selectedChampIcon.sprite = eliseIcon;
+        championBackground.sprite = eliseBackground;
+        selectedChamp = "Elise";
+        OnChampPick();
     }
     public void OnTryndamerePick()
     {
-        Play(tryndamerePick);
+        if (champLocked)
+            return;
+
+        selectedChampIcon.sprite = tryndamereIcon;
+        championBackground.sprite = tryndamereBackground;
+        selectedChamp = "Tryndamere";
+        OnChampPick();
     }
+    public void OnZileanPick()
+    {
+        if (champLocked)
+            return;
+
+        selectedChampIcon.sprite = zileanIcon;
+        championBackground.sprite = zileanBackground;
+        selectedChamp = "Zilean";
+        OnChampPick();
+    }
+
+
+    public void Lock()
+    {
+        if (!champSelected)
+            return;
+
+        if (champLocked)
+            return;
+
+        champLocked = true;
+        if (selectedChamp.Equals("Ahri"))
+            OnAhriLock();
+        else if (selectedChamp.Equals("Aphelios"))
+            OnApheliosLock();
+        else if (selectedChamp.Equals("Elise"))
+            OnEliseLock();
+        else if (selectedChamp.Equals("Tryndamere"))
+            OnTryndamereLock();
+        else
+            OnZileanLock();
+    }
+    public void OnAhriLock()
+    {
+        Play(ahriPick);
+        StartCoroutine(LoadScene("Ahri Scene"));
+    }
+    public void OnApheliosLock()
+    {
+        Play(apheliosPick);
+        StartCoroutine(LoadScene("Aphelios Scene"));
+    }
+    public void OnEliseLock()
+    {
+        Play(elisePick);
+        StartCoroutine(LoadScene("Elise Scene"));
+    }
+    public void OnTryndamereLock()
+    {
+        Play(tryndamerePick);
+        StartCoroutine(LoadScene("Tryndamere Scene"));
+    }
+    public void OnZileanLock()
+    {
+        Play(zileanPick);
+        StartCoroutine(LoadScene("Zilean Scene"));
+    }
+
     private void Play(AudioClip clip)
     {
         audioSourceBg.volume = 0.5f;
         audioSourcePick.clip = clip;
         audioSourcePick.Play();
+    }
+
+    IEnumerator LoadScene(string sceneName)
+    {
+        yield return new WaitForSeconds(audioSourcePick.clip.length);
+        SceneManager.LoadScene(sceneName);
     }
 }

@@ -6,6 +6,21 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/Champ Select.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Zilean Scene.unity
+    guid: f80a12d4e3d1b274899b29ef0feb9ea4
+  - enabled: 1
+    path: Assets/Scenes/Ahri Scene.unity
+    guid: 684eb84669ee72949bdd057610fabb48
+  - enabled: 1
+    path: Assets/Scenes/Aphelios Scene.unity
+    guid: f65b60cf55fcd294c9f9611b6d089222
+  - enabled: 1
+    path: Assets/Scenes/Elise Scene.unity
+    guid: 6e837ba5b4a0b7642b46c4ea3f9188ba
+  - enabled: 1
+    path: Assets/Scenes/Tryndamere Scene.unity
+    guid: 1e89f2982a73a6c49a3cee73a8a3c8f8
   m_configObjects: {}
