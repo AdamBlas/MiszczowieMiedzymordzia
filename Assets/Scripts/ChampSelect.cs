@@ -63,6 +63,7 @@ public class ChampSelect : MonoBehaviour
         audioSourceBg.Play();
 
         audioSourcePick.loop = false;
+        lockButton.enabled = false;
 
         StartCoroutine(RotatePortraitOutline());
         StartCoroutine(RotateBigCircle());
