@@ -17,6 +17,10 @@ public class AhriController : Controller
     [SerializeField] int emissionRate;
     [SerializeField] float emissionTime;
 
+    [SerializeField] Cooldown qCooldown;
+    [SerializeField] Cooldown wCooldown;
+    [SerializeField] Cooldown eCooldown;
+
     bool castingSpell = false;
     int chargesAmount = 0;
 
@@ -27,21 +31,21 @@ public class AhriController : Controller
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && !castingSpell && qReady)
+        if (Input.GetKeyDown(KeyCode.Q) && !castingSpell && qCooldown.skillAval)
         {
             if (eCoroutine != null)
                 StopCoroutine(eCoroutine);
 
             StartCoroutine(Q());
         }
-        if (Input.GetKeyDown(KeyCode.W) && !castingSpell && wReady)
+        if (Input.GetKeyDown(KeyCode.W) && !castingSpell && wCooldown.skillAval)
         {
             if (eCoroutine != null)
                 StopCoroutine(eCoroutine);
 
             StartCoroutine(W());
         }
-        if (Input.GetKeyDown(KeyCode.E) && !castingSpell && eReady)
+        if (Input.GetKeyDown(KeyCode.E) && !castingSpell && eCooldown.skillAval)
         {
             if (eCoroutine != null)
                 StopCoroutine(eCoroutine);
@@ -53,7 +57,7 @@ public class AhriController : Controller
     IEnumerator Q()
     {
         castingSpell = true;
-        qReady = false;
+        qCooldown.StartCooldown();
         player.frame = 0;
         player.clip = q;
 
@@ -63,7 +67,6 @@ public class AhriController : Controller
         AddStack();
         yield return new WaitForSeconds(0.75f);
 
-        qReady = true;
         castingSpell = false;
         player.frame = 0;
         player.clip = idle;
@@ -71,8 +74,8 @@ public class AhriController : Controller
 
     IEnumerator W()
     {
+        wCooldown.StartCooldown();
         castingSpell = true;
-        wReady = false;
         player.frame = 0;
         player.clip = w;
 
@@ -82,7 +85,6 @@ public class AhriController : Controller
         AddStack();
         yield return new WaitForSeconds((float)player.length - 0.75f);
 
-        wReady = true;
         castingSpell = false;
         player.frame = 0;
         player.clip = idle;
@@ -90,8 +92,8 @@ public class AhriController : Controller
 
     IEnumerator E()
     {
+        eCooldown.StartCooldown();
         castingSpell = true;
-        eReady = false;
         player.frame = 0;
         player.clip = e;
 
@@ -99,7 +101,6 @@ public class AhriController : Controller
         AddStack();
         yield return new WaitForSeconds(0.75f);
 
-        eReady = true;
         castingSpell = false;
 
         yield return new WaitForSeconds((float)player.length - 1.25f);

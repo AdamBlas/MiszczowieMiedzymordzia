@@ -15,9 +15,9 @@ public class EliseCooldown : MonoBehaviour
 
     float currHumanCD;
     float currSpiderCD;
-    [HideInInspector] public bool showsHumanCD = true;
-    [HideInInspector] public bool humanAval = true;
-    [HideInInspector] public bool spiderAval = true;
+    public bool showsHumanCD = true;
+    public bool humanAval = true;
+    public bool spiderAval = true;
 
 
 
@@ -78,6 +78,11 @@ public class EliseCooldown : MonoBehaviour
                 background.enabled = true;
                 fill.enabled = true;
                 text.enabled = true;
+
+                if (showsHumanCD)
+                    humanAval = false;
+                else
+                    spiderAval = false;
             }
 
             fill.fillAmount = fillVal;
@@ -91,12 +96,21 @@ public class EliseCooldown : MonoBehaviour
                 text.text = cooldown.ToString("n1");
             }
         }
-        else if (fill.enabled)
+        else
         {
-            background.enabled = false;
-            fill.enabled = false;
-            text.enabled = false;
+            if (fill.enabled)
+            {
+                background.enabled = false;
+                fill.enabled = false;
+                text.enabled = false;
+
+                if (showsHumanCD)
+                    humanAval = true;
+                else
+                    spiderAval = true;
+            }
         }
+        
 
         if (subFill != null)
         {

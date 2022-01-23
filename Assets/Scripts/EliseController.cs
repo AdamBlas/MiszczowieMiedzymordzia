@@ -141,6 +141,8 @@ public class EliseController : Controller
 
         RBefore.StartSpiderCooldown();
         RAfter.StartSpiderCooldown();
+        RBefore.StartHumanCooldown();
+        RAfter.StartHumanCooldown();
         player.frame = 0;
         player.clip = human2spider;
         blocked = true;
@@ -221,6 +223,8 @@ public class EliseController : Controller
 
         RBefore.StartHumanCooldown();
         RAfter.StartHumanCooldown();
+        RBefore.StartSpiderCooldown();
+        RAfter.StartSpiderCooldown();
         player.frame = 0;
         player.clip = spider2human;
         blocked = true;
